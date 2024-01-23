@@ -1,5 +1,6 @@
 package com.example.project.repository
 
+import com.example.project.dataclasses.RegisterBody
 import com.example.project.dataclasses.UniqueEmailValidationResponse
 import com.example.project.dataclasses.ValidateEmailBody
 import com.example.project.utils.APIConsumer
@@ -16,7 +17,21 @@ class AuthRepository(private val consumer :APIConsumer) {
        if(response.isSuccessful){
            emit((RequestStatus.Success(response.body()!!)))
        }else{
-           emit(RequestStatus.Error(SimplifiedMessage.get(response.errorBody()!!.byteStream().reader().readText())))
+           emit(RequestStatus.Error(
+               SimplifiedMessage.get(
+                   response.errorBody()!!.byteStream().reader().readText())))
        }
    }
+
+    fun registerUser (body: RegisterBody) = flow {
+        emit(RequestStatus.Waiting)
+        val response = consumer.registerUser(body)
+        if(response.isSuccessful){
+            emit((RequestStatus.Success(response.body()!!)))
+        }else{
+            emit(RequestStatus.Error(
+                SimplifiedMessage.get(
+                response.errorBody()!!.byteStream().reader().readText())))
+        }
+    }
 }

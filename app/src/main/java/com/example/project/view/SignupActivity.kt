@@ -1,5 +1,6 @@
 package com.example.project.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
@@ -9,6 +10,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.example.project.R
 import com.example.project.databinding.ActivitySignupBinding
+import com.example.project.dataclasses.RegisterBody
 import com.example.project.repository.AuthRepository
 import com.example.project.utils.APIService
 import com.example.project.view_model.SignupActivityViewModel
@@ -25,6 +27,7 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener,View.OnFocusCha
         binding.fullNameEt.onFocusChangeListener=this
         binding.emailEt.onFocusChangeListener=this
         binding.passwordEt.onFocusChangeListener=this
+        binding.signup.setOnClickListener(this)
         viewModel=ViewModelProvider(this,SignupActivityViewModelFactory(AuthRepository(APIService.getService()),application)).get(SignupActivityViewModel::class.java)
         setupObservers()
     }
@@ -37,7 +40,9 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener,View.OnFocusCha
 
         }
         viewModel.getUser().observe(this){
-
+            if(it != null ){
+                startActivity(Intent(this,SplashScreen::class.java))
+            }
         }
     }
     private fun validateFullName() : Boolean {
@@ -95,6 +100,9 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener,View.OnFocusCha
 
 
     override fun onClick(view: View?) {
+        if(view != null && view.id == R.id.signup){
+            onSubmit()
+        }
     }
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
@@ -134,6 +142,27 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener,View.OnFocusCha
         }
     }
 
-    override fun onKey(view: View?, event: Int, keyEvent: KeyEvent?): Boolean {
-return false   }
+    private fun validate():Boolean{
+        var isValid =true
+        if(!validateFullName()) isValid = false
+        if(!validateEmail()) isValid = false
+        if(!validatePassword()) isValid = false
+        if(isValid) isValid = false
+        return isValid
+    }
+
+    private fun onSubmit(){
+        if(validate()){
+            viewModel.registerUser(RegisterBody(binding.fullNameEt.text!!.toString(),
+                binding.emailEt.text!!.toString(),binding.passwordEt.text!!.toString()
+                ))
+        }
+    }
+
+    override fun onKey(view: View?, keyCode: Int, keyEvent: KeyEvent?): Boolean {
+
+        if(KeyEvent.KEYCODE_ENTER == keyCode && keyEvent!!.action == KeyEvent.ACTION_UP){
+            onSubmit()
+        }
+        return false   }
 }
