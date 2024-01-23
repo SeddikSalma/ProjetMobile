@@ -4,10 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.project.R
 import com.example.project.databinding.FragmentPostsBinding
+import com.example.project.ui.components.CreatePostComponent
+import com.example.project.ui.components.post.PostComponent
 
 class PostsFragment : Fragment() {
 
@@ -27,10 +33,10 @@ class PostsFragment : Fragment() {
 
         _binding = FragmentPostsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val textView: TextView = binding.textGallery
-        postsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        root.apply {
+            findViewById<ComposeView>(R.id.posts_compose_view).setContent {
+                PostsPage()
+            }
         }
         return root
     }
@@ -38,5 +44,19 @@ class PostsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+}
+
+@Preview()
+@Composable()
+fun PostsPage(){
+    val posts = listOf("a", "b", "c")
+    return LazyColumn {
+        item {
+            CreatePostComponent()
+        }
+        items(posts.size){ index ->
+            PostComponent(posts[index])
+        }
     }
 }
