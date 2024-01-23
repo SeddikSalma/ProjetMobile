@@ -62,58 +62,78 @@
 
             />
 
-        <EditText
-            android:id="@+id/fullName"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fullNameTil"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:textSize="18sp"
-            android:padding="12dp"
-            android:layout_marginTop="12dp"
-            android:textColor="#CDCBCB"
-            android:background="@drawable/edittext_background"
-            android:ems="10"
-            android:inputType="text"
-            android:hint="Enter Your FullName" />
+            android:layout_height="101dp"
 
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fullNameEt"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/edittext_background"
+                android:ems="10"
+                android:hint="Enter Your FullName"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="#CDCBCB"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:text="Email"
+            android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#000000"
-            android:layout_marginTop="12dp"
 
             />
-
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailTil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/editTextEmail"
+            android:id="@+id/emailEt"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:textSize="18sp"
-            android:padding="12dp"
             android:layout_marginTop="12dp"
-            android:textColor="#CDCBCB"
             android:background="@drawable/edittext_background"
             android:ems="10"
+            android:hint="Enter Your Email"
             android:inputType="text"
-            android:hint="Enter Your Email" />
+            android:padding="12dp"
+            android:textColor="#CDCBCB"
+            android:textSize="18sp" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <TextView
             android:id="@+id/Password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:text="Password"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="32dp"
-            />
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordTil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/passwordEt"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="12dp"
@@ -123,7 +143,13 @@
             android:inputType="textPassword"
             android:padding="12dp"
             android:textColor="#CDCBCB"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            app:passwordToggleEnabled="true"
+            />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signup"
