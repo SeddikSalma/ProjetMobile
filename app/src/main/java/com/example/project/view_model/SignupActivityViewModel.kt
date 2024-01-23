@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.project.dataclasses.RegisterBody
 import com.example.project.dataclasses.User
 import com.example.project.dataclasses.ValidateEmailBody
 import com.example.project.repository.AuthRepository
@@ -29,7 +30,7 @@ class SignupActivityViewModel(val authRepository: AuthRepository, val applicatio
      }
      is RequestStatus.Success->{
         isLoading.value=false
-        isUniqueEmail.value=true
+        isUniqueEmail.value=it.data.isUnique
      }
      is RequestStatus.Error->{
         isLoading.value=false
@@ -41,4 +42,24 @@ class SignupActivityViewModel(val authRepository: AuthRepository, val applicatio
   }
  }
 
+ fun  registerUser(body: RegisterBody) {
+  viewModelScope.launch {
+   authRepository.registerUser(body).collect{
+    when(it){
+     is RequestStatus.Waiting->{
+      isLoading.value=true
+     }
+     is RequestStatus.Success->{
+      isLoading.value=false
+      user.value=it.data.user
+     }
+     is RequestStatus.Error->{
+      isLoading.value=false
+      errorMessage.value=it.message
+     }
+
+    }
+   }
+  }
+ }
 }
