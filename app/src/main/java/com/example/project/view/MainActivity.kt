@@ -1,4 +1,4 @@
-package com.example.project
+package com.example.project.view
 
 import android.os.Bundle
 import android.view.Menu
@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.example.project.R
 import com.example.project.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

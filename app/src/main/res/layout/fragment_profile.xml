@@ -16,7 +16,7 @@
         android:orientation="vertical"
         android:layout_gravity="center"
         android:background="@drawable/background01"
-        tools:context=".MainActivity">
+        tools:context=".view.MainActivity">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
