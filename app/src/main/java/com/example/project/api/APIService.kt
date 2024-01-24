@@ -27,7 +27,6 @@ object APIService {
             .addConverterFactory(GsonConverterFactory.create())
 
         val retrofit: Retrofit=builder.build()
-
         return retrofit.create(AuthRoute::class.java)
     }
 
@@ -37,7 +36,6 @@ object APIService {
                 val reqBuilder: Request.Builder = chain.request().newBuilder()
                 if(SessionManager.isLoggedIn()){
                     val token = SessionManager.getAccessToken()!!
-                    Log.d("TOKENNN", "TOKEN: $token")
                     reqBuilder.addHeader("Authorization", "Bearer $token")
                 }
                 val newReq = reqBuilder.build()
@@ -51,7 +49,28 @@ object APIService {
             .addConverterFactory(GsonConverterFactory.create())
 
         val retrofit: Retrofit=builder.build()
-
         return retrofit.create(PostRoute::class.java)
+    }
+
+    fun getUserService(): UserRoute {
+        val client: OkHttpClient = clientBuilder.newBuilder()
+            .addInterceptor { chain: Interceptor.Chain ->
+                val reqBuilder: Request.Builder = chain.request().newBuilder()
+                if(SessionManager.isLoggedIn()){
+                    val token = SessionManager.getAccessToken()!!
+                    reqBuilder.addHeader("Authorization", "Bearer $token")
+                }
+                val newReq = reqBuilder.build()
+                chain.proceed(newReq)
+            }
+            .build()
+
+        val builder: Retrofit.Builder=Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+
+        val retrofit: Retrofit=builder.build()
+        return retrofit.create(UserRoute::class.java)
     }
 }
