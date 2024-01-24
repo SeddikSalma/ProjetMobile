@@ -9,11 +9,10 @@ object SimplifiedMessage {
         val jsonObject = JSONObject(stringMessage)
 
         try{
-            val jsonMessage=jsonObject.getJSONObject("message")
-            jsonMessage.keys().forEach { messages[it]=jsonMessage.getString(it) }
+            messages["message"]=jsonObject.getString("data")
         }
         catch (e:JSONException){
-            messages["message"]=jsonObject.getString("message")
+            messages["message"]="Unknown error occurred."
         }
 
         return messages

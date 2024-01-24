@@ -8,58 +8,39 @@ import androidx.lifecycle.viewModelScope
 import com.example.project.dataclasses.RegisterBody
 import com.example.project.dataclasses.User
 import com.example.project.dataclasses.ValidateEmailBody
+import com.example.project.dataclasses.login.LoginResponse
 import com.example.project.repository.AuthRepository
 import com.example.project.utils.RequestStatus
 import kotlinx.coroutines.launch
 
-class SignupActivityViewModel(val authRepository: AuthRepository, val application: Application):ViewModel() {
- private var isLoading : MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value=false }
- private var errorMessage: MutableLiveData<HashMap<String, String>> = MutableLiveData()
- private var isUniqueEmail : MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value=false }
- private var user : MutableLiveData<User> = MutableLiveData()
- fun getIsLoading():LiveData<Boolean> = isLoading
- fun getErrorMessage():LiveData<HashMap<String, String>> = errorMessage
- fun getIsUnique():LiveData<Boolean> = isUniqueEmail
- fun getUser(): LiveData<User> = user
- fun validateEmailAddress(body:ValidateEmailBody){
-  viewModelScope.launch {
-   authRepository.validateEmailAddress(body).collect{
-    when(it){
-     is RequestStatus.Waiting->{
-        isLoading.value=true
-     }
-     is RequestStatus.Success->{
-        isLoading.value=false
-        isUniqueEmail.value=it.data.isUnique
-     }
-     is RequestStatus.Error->{
-        isLoading.value=false
-        errorMessage.value=it.message
-     }
+sealed class RegisterState {
+    data object Idle: RegisterState()
+    data object Loading: RegisterState()
+    data class Error(val error: String): RegisterState()
+    data class Success(val tokens: String): RegisterState()
+}
 
+class SignupActivityViewModel(private val authRepository: AuthRepository):ViewModel() {
+    private val registerResult: MutableLiveData<RegisterState> = MutableLiveData<RegisterState>().apply {
+        value = RegisterState.Idle
     }
-   }
-  }
- }
+    fun getRegisterResult(): LiveData<RegisterState> = registerResult
 
- fun  registerUser(body: RegisterBody) {
-  viewModelScope.launch {
-   authRepository.registerUser(body).collect{
-    when(it){
-     is RequestStatus.Waiting->{
-      isLoading.value=true
-     }
-     is RequestStatus.Success->{
-      isLoading.value=false
-      user.value=it.data.user
-     }
-     is RequestStatus.Error->{
-      isLoading.value=false
-      errorMessage.value=it.message
-     }
-
+    fun  registerUser(body: RegisterBody) {
+        viewModelScope.launch {
+            authRepository.registerUser(body).collect{
+                when(it){
+                    is RequestStatus.Waiting -> {
+                        registerResult.value = RegisterState.Loading
+                    }
+                    is RequestStatus.Success -> {
+                        registerResult.value = RegisterState.Success("")
+                    }
+                    is RequestStatus.Error -> {
+                        registerResult.value = RegisterState.Error("")
+                    }
+                }
+            }
+        }
     }
-   }
-  }
- }
 }
