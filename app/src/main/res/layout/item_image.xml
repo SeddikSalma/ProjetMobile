@@ -17,7 +17,9 @@
             app:cardUseCompatPadding="true"
             card_view:cardCornerRAdius="5dp"
             android:layout_width="match_parent"
-            android:layout_height="240dp">
+            android:layout_height="240dp"
+            app:cardBackgroundColor="#EAB2A1"
+            >
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_marginTop="23dp"
