@@ -36,6 +36,11 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
             onSubmit()
         }
 
+        viewModel = ViewModelProvider(
+            this,
+            SignupActivityViewModelFactory(),
+        )[SignupActivityViewModel::class.java]
+
         viewModel.getRegisterResult().observe(this) {
             when(it){
                 is RegisterState.Idle -> {
@@ -54,11 +59,6 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
                 }
             }
         }
-
-        viewModel = ViewModelProvider(
-            this,
-            SignupActivityViewModelFactory(),
-        )[SignupActivityViewModel::class.java]
     }
 
     private fun setupValidationListeners(){
