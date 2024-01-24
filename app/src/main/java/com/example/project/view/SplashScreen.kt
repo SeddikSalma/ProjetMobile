@@ -1,5 +1,6 @@
-package com.example.project
+package com.example.project.view
 
+import SessionManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,11 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashscreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if(SessionManager.isLoggedIn()){
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.button.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
