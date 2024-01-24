@@ -9,7 +9,7 @@ import java.security.InvalidParameterException
 
 class PostsFragmentViewModelFactory: ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LoginActivityViewModel::class.java)){
+        if (modelClass.isAssignableFrom(PostsFragmentViewModel::class.java)){
             return PostsFragmentViewModel(PostRepository(APIService.getPostService())) as T
         }
         throw InvalidParameterException("Unable to create PostsViewModel")

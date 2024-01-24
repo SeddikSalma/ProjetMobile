@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.project.R
 import com.example.project.databinding.FragmentPostsBinding
+import com.example.project.dataclasses.create_post.CreatePostBody
 import com.example.project.ui.components.CreatePostComponent
 import com.example.project.ui.components.post.PostComponent
 
@@ -56,7 +57,9 @@ fun PostsPage(viewModel: PostsFragmentViewModel){
     return LazyColumn {
         item {
             CreatePostComponent {
-
+                val title = it.split("\n")[0]
+                val body = it.replace("$title\n", "")
+                viewModel.createPost(CreatePostBody(title, body))
             }
         }
         items(posts.size){ index ->

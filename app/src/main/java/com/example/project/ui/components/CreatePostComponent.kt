@@ -28,7 +28,7 @@ fun CreatePostComponentPreview(){
 }
 
 @Composable
-fun CreatePostComponent(onClick: () -> Unit){
+fun CreatePostComponent(onClick: (value: String) -> Unit){
     val text = remember {
         mutableStateOf("")
     }
@@ -57,7 +57,11 @@ fun CreatePostComponent(onClick: () -> Unit){
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFFF4500)
                 ),
-                onClick = onClick
+                onClick = {
+                    val value = text.value;
+                    text.value = ""
+                    onClick(value)
+                }
             ) {
                 Text("Post")
             }
