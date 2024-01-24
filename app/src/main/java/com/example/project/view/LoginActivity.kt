@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
+import com.example.project.R
 import com.example.project.databinding.ActivityLoginBinding
 import com.example.project.dataclasses.login.LoginRequestBody
 import com.example.project.view_model.LoginActivityViewModel
@@ -32,6 +33,9 @@ class LoginActivity : AppCompatActivity() {
             this,
             LoginActivityViewModelFactory()
         )[LoginActivityViewModel::class.java]
+
+        loadingProgressBar1 = findViewById(R.id.loadingProgressBar1)
+        login=findViewById(R.id.login)
 
         viewModel.getLoginResult().observe(this) {
             when(it){
@@ -77,8 +81,9 @@ class LoginActivity : AppCompatActivity() {
 
             login.isEnabled = false
 
-
             viewModel.loginUser(LoginRequestBody(email, password))
         }
 
-    }}
+    }
+
+}
