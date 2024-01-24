@@ -1,6 +1,8 @@
 package com.example.project.dataclasses
 
+import com.google.gson.annotations.SerializedName
+
 data class RegisterResponse(
-    val user :User,
-    val token : String
+    @SerializedName("user")
+    val user :User
 )

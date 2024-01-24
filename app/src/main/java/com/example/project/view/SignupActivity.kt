@@ -3,6 +3,7 @@ package com.example.project.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -12,12 +13,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.project.R
 import com.example.project.databinding.ActivitySignupBinding
 import com.example.project.dataclasses.RegisterBody
+import com.example.project.dataclasses.login.LoginRequestBody
 import com.example.project.repository.AuthRepository
 import com.example.project.utils.APIService
+import com.example.project.view_model.LoginState
+import com.example.project.view_model.RegisterState
 import com.example.project.view_model.SignupActivityViewModel
-import com.example.project.view_model.SignupActivityViewModelFactory
+import com.example.project.view_model.factory.SignupActivityViewModelFactory
 
-class SignupActivity : AppCompatActivity(), View.OnClickListener,View.OnKeyListener {
+class SignupActivity : AppCompatActivity(), View.OnKeyListener {
 
    private lateinit var binding : ActivitySignupBinding
    private lateinit var viewModel : SignupActivityViewModel
@@ -25,6 +29,39 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener,View.OnKeyListe
         super.onCreate(savedInstanceState)
         binding=ActivitySignupBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+
+        setupValidationListeners()
+
+        binding.signup.setOnClickListener{
+            onSubmit()
+        }
+
+        viewModel.getRegisterResult().observe(this) {
+            when(it){
+                is RegisterState.Idle -> {
+                    Log.d("RegisterTest", "Idle state")
+                }
+                is RegisterState.Loading -> {
+                    Log.d("RegisterTest", "Loading state")
+                }
+                is RegisterState.Success -> {
+                    Log.d("RegisterTest", "Success state")
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+                is RegisterState.Error -> {
+                    Log.d("RegisterTest", "Error state: " + it.error)
+                }
+            }
+        }
+
+        viewModel = ViewModelProvider(
+            this,
+            SignupActivityViewModelFactory(),
+        )[SignupActivityViewModel::class.java]
+    }
+
+    private fun setupValidationListeners(){
         binding.fullNameEt.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) validateFullName()
         }
@@ -46,32 +83,15 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener,View.OnKeyListe
         binding.fullNameEt.addTextChangedListener {
             binding.fullNameTil.error = null;
         }
-
-        binding.signup.setOnClickListener(this)
-        viewModel=ViewModelProvider(this,SignupActivityViewModelFactory(AuthRepository(APIService.getService()),application)).get(SignupActivityViewModel::class.java)
-        setupObservers()
     }
 
-    private fun setupObservers(){
-        viewModel.getIsLoading().observe(this){
-
-        }
-        viewModel.getErrorMessage().observe(this){
-
-        }
-        viewModel.getUser().observe(this){
-            if(it != null ){
-                startActivity(Intent(this,SplashScreen::class.java))
-            }
-        }
-    }
     private fun validateFullName() : Boolean {
         val value: String = binding.fullNameEt.text.toString()
 
         if (value.isEmpty()) {
             binding.fullNameTil.apply {
                 isErrorEnabled=true
-                error="FullName required"
+                error="Fullname required"
             }
             return false;
         }
@@ -88,7 +108,7 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener,View.OnKeyListe
             return false;
         }
 
-        if(Patterns.EMAIL_ADDRESS.matcher(value).matches()){
+        if(!Patterns.EMAIL_ADDRESS.matcher(value).matches()){
             binding.emailTil.apply {
                 isErrorEnabled=true
                 error="Email address is invalid"
@@ -117,13 +137,6 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener,View.OnKeyListe
             return false;
         }
         return true;
-    }
-
-
-    override fun onClick(view: View?) {
-        if(view?.id == R.id.signup){
-            onSubmit()
-        }
     }
 
     private fun validate(): Boolean {

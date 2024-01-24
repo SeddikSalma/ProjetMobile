@@ -1,8 +1,12 @@
 package com.example.project.dataclasses
 
-data class RegisterBody(
-    val fullName : String,
-    val email : String,
-    val password :String
+import com.google.gson.annotations.SerializedName
 
+data class RegisterBody(
+    @SerializedName("fullname")
+    val fullName : String,
+    @SerializedName("email")
+    val email : String,
+    @SerializedName("password")
+    val password :String
 )
