@@ -1,10 +1,8 @@
 package com.example.project.utils
 
 import com.example.project.dataclasses.BaseResponse
-import com.example.project.dataclasses.RegisterBody
-import com.example.project.dataclasses.RegisterResponse
-import com.example.project.dataclasses.UniqueEmailValidationResponse
-import com.example.project.dataclasses.ValidateEmailBody
+import com.example.project.dataclasses.register.RegisterBody
+import com.example.project.dataclasses.register.RegisterResponse
 import com.example.project.dataclasses.login.LoginRequestBody
 import com.example.project.dataclasses.login.LoginResponse
 import retrofit2.Response

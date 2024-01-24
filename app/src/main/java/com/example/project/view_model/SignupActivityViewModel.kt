@@ -1,14 +1,10 @@
 package com.example.project.view_model
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.project.dataclasses.RegisterBody
-import com.example.project.dataclasses.User
-import com.example.project.dataclasses.ValidateEmailBody
-import com.example.project.dataclasses.login.LoginResponse
+import com.example.project.dataclasses.register.RegisterBody
 import com.example.project.repository.AuthRepository
 import com.example.project.utils.RequestStatus
 import kotlinx.coroutines.launch

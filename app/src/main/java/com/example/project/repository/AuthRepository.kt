@@ -1,13 +1,10 @@
 package com.example.project.repository
 
-import com.example.project.dataclasses.RegisterBody
-import com.example.project.dataclasses.UniqueEmailValidationResponse
-import com.example.project.dataclasses.ValidateEmailBody
+import com.example.project.dataclasses.register.RegisterBody
 import com.example.project.dataclasses.login.LoginRequestBody
 import com.example.project.utils.APIConsumer
 import com.example.project.utils.RequestStatus
 import com.example.project.utils.SimplifiedMessage
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class AuthRepository(private val consumer :APIConsumer) {
