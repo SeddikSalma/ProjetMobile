@@ -1,5 +1,6 @@
 package com.example.project.view
 import android.app.AlertDialog
+import SessionManager
 import android.content.Intent
 import android.os.Bundle;
 import android.util.Log
@@ -39,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("LoginTest", "Success state")
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
+                    SessionManager.saveAuthSession(it.tokens)
                 }
                 is LoginState.Error -> {
                     AlertDialog.Builder(this)

@@ -11,13 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
-import com.example.project.R
 import com.example.project.databinding.ActivitySignupBinding
-import com.example.project.dataclasses.RegisterBody
-import com.example.project.dataclasses.login.LoginRequestBody
-import com.example.project.repository.AuthRepository
-import com.example.project.utils.APIService
-import com.example.project.view_model.LoginState
+import com.example.project.dataclasses.register.RegisterBody
 import com.example.project.view_model.RegisterState
 import com.example.project.view_model.SignupActivityViewModel
 import com.example.project.view_model.factory.SignupActivityViewModelFactory
@@ -54,7 +49,7 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
                 }
                 is RegisterState.Success -> {
                     Log.d("RegisterTest", "Success state")
-                    val intent = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
 
                 }

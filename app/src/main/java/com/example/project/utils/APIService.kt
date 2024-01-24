@@ -1,6 +1,9 @@
 package com.example.project.utils
 
+import SessionManager
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
@@ -13,6 +16,15 @@ object APIService {
             .connectTimeout(60,TimeUnit.SECONDS)
             .readTimeout(60,TimeUnit.SECONDS)
             .writeTimeout(60,TimeUnit.SECONDS)
+            .addInterceptor { chain: Interceptor.Chain ->
+                val reqBuilder: Request.Builder = chain.request().newBuilder()
+                if(SessionManager.isLoggedIn()){0
+                    val token = SessionManager.getAccessToken()!!
+                    reqBuilder.addHeader("Authorization", "Bearer $token")
+                }
+                val newReq = reqBuilder.build()
+                chain.proceed(newReq)
+            }
             .build()
 
         val builder: Retrofit.Builder=Retrofit.Builder()
