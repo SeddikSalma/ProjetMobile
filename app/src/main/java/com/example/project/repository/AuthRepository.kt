@@ -3,8 +3,8 @@ package com.example.project.repository
 import com.example.project.dataclasses.register.RegisterBody
 import com.example.project.dataclasses.login.LoginRequestBody
 import com.example.project.api.AuthRoute
-import com.example.project.utils.RequestStatus
-import com.example.project.utils.SimplifiedMessage
+import com.example.project.api.RequestStatus
+import com.example.project.api.SimplifiedMessage
 import kotlinx.coroutines.flow.flow
 
 class AuthRepository(private val consumer : AuthRoute) {

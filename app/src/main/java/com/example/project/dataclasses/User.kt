@@ -9,4 +9,6 @@ data class User(
     val fullName: String,
     @SerializedName("email")
     val email: String,
+    @SerializedName("avatar")
+    val avatar: String,
 )

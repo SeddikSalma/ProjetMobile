@@ -1,30 +1,24 @@
 package com.example.project.ui.Posts
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.project.dataclasses.Post
 import com.example.project.dataclasses.create_post.CreatePostBody
-import com.example.project.dataclasses.login.LoginRequestBody
-import com.example.project.dataclasses.login.LoginResponse
 import com.example.project.repository.PostRepository
-import com.example.project.utils.RequestStatus
-import com.example.project.view_model.LoginState
+import com.example.project.api.RequestStatus
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-
-sealed class CreatePostState {
-    data object Idle: CreatePostState()
-    data object Loading: CreatePostState()
-    data class Error(val error: String): CreatePostState()
-    data class Success(val newPost: Post): CreatePostState()
-}
 
 class PostsFragmentViewModel(private val postRepository: PostRepository) : ViewModel() {
     private val loginResult: MutableLiveData<CreatePostState> = MutableLiveData<CreatePostState>().apply {
         value = CreatePostState.Idle
     }
+
     fun getNewPostResult(): LiveData<CreatePostState> = loginResult
+    val posts: MutableStateFlow<List<Post>> = MutableStateFlow(emptyList())
 
     fun createPost(body: CreatePostBody){
         viewModelScope.launch {
@@ -34,7 +28,10 @@ class PostsFragmentViewModel(private val postRepository: PostRepository) : ViewM
                         loginResult.value = CreatePostState.Loading
                     }
                     is RequestStatus.Success -> {
-                        loginResult.value = CreatePostState.Success(it.data.data!!.post)
+                        val post = it.data.data!!.post
+                        loginResult.value = CreatePostState.Success(post)
+
+                        posts.value = listOf(post) + posts.value;
                     }
                     is RequestStatus.Error -> {
                         loginResult.value = CreatePostState.Error(it.message["message"]!!)
@@ -45,6 +42,23 @@ class PostsFragmentViewModel(private val postRepository: PostRepository) : ViewM
     }
 
     fun getPosts(){
-
+        viewModelScope.launch {
+            postRepository.getPosts().collect {
+                when(it) {
+                    is RequestStatus.Waiting -> {
+                        Log.d("TESSSSSST", "loading")
+//                        posts.value = GetPostsState.Loading
+                    }
+                    is RequestStatus.Success -> {
+                        Log.d("TESSSSSST", "Success")
+                        posts.value = it.data.data!! // GetPostsState.Success(it.data.data!!)
+                    }
+                    is RequestStatus.Error -> {
+                        Log.d("TESSSSSST", "err" + it.message["message"]!!)
+//                        posts.value = GetPostsState.Error(it.message["message"]!!)
+                    }
+                }
+            }
+        }
     }
 }

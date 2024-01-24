@@ -1,4 +1,4 @@
-package com.example.project.utils
+package com.example.project.api
 
 import org.json.JSONException
 import org.json.JSONObject

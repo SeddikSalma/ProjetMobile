@@ -14,22 +14,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.project.dataclasses.User
 import com.example.project.ui.components.common.YCenteredAvatar
 
 @Composable
 @Preview
 fun PostHeaderPreview(){
     return PostHeader(
-        name = "Kater Kat",
-        image = "https://i.imgur.com/tec6XdD.png",
-        postDate = "A day ago"
+        user = User(
+            "_id",
+            "Kater Kat",
+            "email@gmail.com",
+            "https://picsum.photos/seed/picsum/200/200"
+        ),
+        "A day ago"
     )
 }
-
+// "https://i.imgur.com/tec6XdD.png"
+// "A day ago"
 @Composable
 fun PostHeader(
-    name: String,
-    image: String,
+    user: User,
     postDate: String,
 ){
     return Row (
@@ -37,14 +42,14 @@ fun PostHeader(
             .fillMaxWidth()
             .height(50.dp)
     ) {
-        YCenteredAvatar(url = image)
+        YCenteredAvatar(url = user.avatar)
         Column (
             modifier = Modifier
                 .padding(8.dp, 0.dp, 0.dp, 0.dp)
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.Center
         ) {
-            PostUsername(name = name)
+            PostUsername(name = user.fullName)
             PostPublishDate(date = postDate)
         }
     }

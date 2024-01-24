@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.Fragment
@@ -53,7 +55,9 @@ class PostsFragment : Fragment() {
 
 @Composable()
 fun PostsPage(viewModel: PostsFragmentViewModel){
-    val posts = listOf("a", "b", "c")
+    val posts by viewModel.posts.collectAsState()
+    viewModel.getPosts()
+
     return LazyColumn {
         item {
             CreatePostComponent {

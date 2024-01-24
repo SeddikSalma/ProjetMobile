@@ -7,4 +7,6 @@ data class Post (
     val title: String,
     @SerializedName("content")
     val content: String,
+    @SerializedName("postedBy")
+    val postedBy: User,
 )

@@ -1,6 +1,7 @@
 package com.example.project.api
 
 import SessionManager
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -34,8 +35,9 @@ object APIService {
         val client: OkHttpClient = clientBuilder.newBuilder()
             .addInterceptor { chain: Interceptor.Chain ->
                 val reqBuilder: Request.Builder = chain.request().newBuilder()
-                if(SessionManager.isLoggedIn()){0
+                if(SessionManager.isLoggedIn()){
                     val token = SessionManager.getAccessToken()!!
+                    Log.d("TOKENNN", "TOKEN: $token")
                     reqBuilder.addHeader("Authorization", "Bearer $token")
                 }
                 val newReq = reqBuilder.build()

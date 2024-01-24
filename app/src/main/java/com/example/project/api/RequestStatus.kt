@@ -1,4 +1,4 @@
-package com.example.project.utils
+package com.example.project.api
 
 sealed class RequestStatus<out T> {
     data object  Waiting : RequestStatus<Nothing>()

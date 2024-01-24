@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.project.dataclasses.login.LoginRequestBody
 import com.example.project.dataclasses.login.LoginResponse
 import com.example.project.repository.AuthRepository
-import com.example.project.utils.RequestStatus
+import com.example.project.api.RequestStatus
 import kotlinx.coroutines.launch
 
 sealed class LoginState {

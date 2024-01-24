@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.project.dataclasses.register.RegisterBody
 import com.example.project.repository.AuthRepository
-import com.example.project.utils.RequestStatus
+import com.example.project.api.RequestStatus
 import kotlinx.coroutines.launch
 
 sealed class RegisterState {

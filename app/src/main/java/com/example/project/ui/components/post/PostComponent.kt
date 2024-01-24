@@ -13,25 +13,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.project.dataclasses.Post
+import com.example.project.dataclasses.User
 
 @Preview
 @Composable
 fun PostComponentPreview(){
-    return PostComponent("dummy")
+    return PostComponent(
+        Post(
+            "title",
+            "dummy",
+            User("_id", "name", "email", "https://picsum.photos/seed/picsum/200/200")
+        )
+    )
 }
 
 @Composable
-fun PostComponent(postInfo: String){
+fun PostComponent(postInfo: Post){
     return PostBox (
         header = {
             PostHeader(
-                name = "Kater Kat",
-                image = "https://i.imgur.com/tec6XdD.png",
-                postDate = "A day ago"
+                postInfo.postedBy,
+                "A day ago"
             )
         },
         content = {
-            PostBody("Hello World\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+            PostBody(postInfo.content)
         }
     )
 }
@@ -44,7 +51,7 @@ fun PostBox(
     return OutlinedCard (
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
+            //.height(150.dp)
             .padding(16.dp, 16.dp, 16.dp, 0.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
