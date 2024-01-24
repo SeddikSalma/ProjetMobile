@@ -23,6 +23,13 @@
     
     PostHeader : is the component used to display the name of the username that wrote the post
 
+## Navigation
+
+
+
+## Retrofit
+
+
 ## User Interface
 
 ### SpashScreen
