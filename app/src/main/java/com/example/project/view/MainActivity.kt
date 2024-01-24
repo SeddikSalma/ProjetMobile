@@ -46,16 +46,6 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-//        navView.setNavigationItemSelectedListener {
-//            val id = it.itemId
-//            if(id == R.id.logout) {
-//                disconnectUser()
-//                val intent = Intent(this, LoginActivity::class.java)
-//                startActivity(intent)
-//                false
-//            }
-//            else true
-//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
