@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("RegisterTest", it.error)
                 }
             }
-        }
+        } 
 
         binding.signup.setOnClickListener {
             val intent = Intent(this, SignupActivity::class.java)
