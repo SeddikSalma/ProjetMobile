@@ -15,6 +15,7 @@
         <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_profile"
+            android:onClick="onLogoutClick"
             android:title="Logout" />
 
     </group>
