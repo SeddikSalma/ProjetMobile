@@ -1,4 +1,5 @@
 package com.example.project.view
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle;
 import android.util.Log
@@ -40,7 +41,14 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 is LoginState.Error -> {
-                    Log.d("LoginTest", "Error state: " + it.error)
+                    AlertDialog.Builder(this)
+                        .setTitle("Error")
+                        .setMessage(it.error)
+                        .setPositiveButton("OK") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .show()
+                    Log.d("RegisterTest", it.error)
                 }
             }
         }

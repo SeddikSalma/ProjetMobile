@@ -1,5 +1,6 @@
 package com.example.project.view
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -25,6 +26,7 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
 
    private lateinit var binding : ActivitySignupBinding
    private lateinit var viewModel : SignupActivityViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivitySignupBinding.inflate(LayoutInflater.from(this))
@@ -48,14 +50,24 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
                 }
                 is RegisterState.Loading -> {
                     Log.d("RegisterTest", "Loading state")
+
                 }
                 is RegisterState.Success -> {
                     Log.d("RegisterTest", "Success state")
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
+
                 }
                 is RegisterState.Error -> {
-                    Log.d("RegisterTest", "Error state: " + it.error)
+
+                    AlertDialog.Builder(this)
+                        .setTitle("Error")
+                        .setMessage(it.error)
+                        .setPositiveButton("OK") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .show()
+                    Log.d("RegisterTest", it.error)
                 }
             }
         }
