@@ -21,8 +21,6 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel : LoginActivityViewModel
-    private lateinit var loadingProgressBar1: ProgressBar
-    private lateinit var login : AppCompatButton
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,25 +32,22 @@ class LoginActivity : AppCompatActivity() {
             LoginActivityViewModelFactory()
         )[LoginActivityViewModel::class.java]
 
-        loadingProgressBar1 = findViewById(R.id.loadingProgressBar1)
-        login=findViewById(R.id.login)
-
         viewModel.getLoginResult().observe(this) {
             when(it){
                 is LoginState.Idle -> {
                     Log.d("LoginTest", "Idle state")
-                    login.isEnabled = true
+                    binding.login.isEnabled = true
                 }
                 is LoginState.Loading -> {
                     Log.d("LoginTest", "Loading state")
-                    loadingProgressBar1.visibility = View.VISIBLE
+                    binding.loadingProgressBar1.visibility = View.VISIBLE
                 }
                 is LoginState.Success -> {
                     Log.d("LoginTest", "Success state")
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     SessionManager.saveAuthSession(it.tokens)
-                   loadingProgressBar1.visibility = View.GONE
+                    binding.loadingProgressBar1.visibility = View.GONE
 
                 }
                 is LoginState.Error -> {
@@ -64,8 +59,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                         .show()
                     Log.d("RegisterTest", it.error)
-                    loadingProgressBar1.visibility = View.GONE
-
+                    binding.loadingProgressBar1.visibility = View.GONE
                 }
             }
         } 
@@ -79,11 +73,9 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.editTextEmail.text.toString()
             val password = binding.editTextPassword.text.toString()
 
-            login.isEnabled = false
-
+            binding.login.isEnabled = false
             viewModel.loginUser(LoginRequestBody(email, password))
         }
-
     }
 
 }
