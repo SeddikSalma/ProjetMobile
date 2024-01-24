@@ -9,8 +9,10 @@ import android.util.Patterns
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ProgressBar
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import com.example.project.R
 import com.example.project.databinding.ActivitySignupBinding
 import com.example.project.dataclasses.register.RegisterBody
 import com.example.project.view_model.RegisterState
@@ -21,7 +23,7 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
 
    private lateinit var binding : ActivitySignupBinding
    private lateinit var viewModel : SignupActivityViewModel
-
+   private lateinit var loadingProgressBar: ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivitySignupBinding.inflate(LayoutInflater.from(this))
@@ -44,17 +46,19 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
                     Log.d("RegisterTest", "Idle state")
                 }
                 is RegisterState.Loading -> {
+                    loadingProgressBar.visibility = View.VISIBLE
                     Log.d("RegisterTest", "Loading state")
 
                 }
                 is RegisterState.Success -> {
+                    loadingProgressBar.visibility = View.GONE
                     Log.d("RegisterTest", "Success state")
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
 
                 }
                 is RegisterState.Error -> {
-
+                    loadingProgressBar.visibility = View.GONE
                     AlertDialog.Builder(this)
                         .setTitle("Error")
                         .setMessage(it.error)
@@ -66,6 +70,8 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
                 }
             }
         }
+        loadingProgressBar = findViewById(R.id.loadingProgressBar)
+
     }
 
     private fun setupValidationListeners(){
