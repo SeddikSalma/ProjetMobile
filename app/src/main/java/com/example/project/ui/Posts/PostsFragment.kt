@@ -22,20 +22,23 @@ class PostsFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var viewModel: PostsFragmentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val postsViewModel =
-            ViewModelProvider(this).get(PostsViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            PostsFragmentViewModelFactory()
+        )[PostsFragmentViewModel::class.java]
 
         _binding = FragmentPostsBinding.inflate(inflater, container, false)
         val root: View = binding.root
         root.apply {
             findViewById<ComposeView>(R.id.posts_compose_view).setContent {
-                PostsPage()
+                PostsPage(viewModel)
             }
         }
         return root
@@ -47,13 +50,14 @@ class PostsFragment : Fragment() {
     }
 }
 
-@Preview()
 @Composable()
-fun PostsPage(){
+fun PostsPage(viewModel: PostsFragmentViewModel){
     val posts = listOf("a", "b", "c")
     return LazyColumn {
         item {
-            CreatePostComponent()
+            CreatePostComponent {
+
+            }
         }
         items(posts.size){ index ->
             PostComponent(posts[index])

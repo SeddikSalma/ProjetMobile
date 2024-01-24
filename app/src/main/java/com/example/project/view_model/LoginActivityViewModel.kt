@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.project.dataclasses.User
 import com.example.project.dataclasses.login.LoginRequestBody
 import com.example.project.dataclasses.login.LoginResponse
 import com.example.project.repository.AuthRepository

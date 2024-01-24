@@ -19,15 +19,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.project.R
+import com.example.project.ui.Posts.PostsFragmentViewModel
 
 @Composable
 @Preview
 fun CreatePostComponentPreview(){
-    return CreatePostComponent()
+    return CreatePostComponent {}
 }
 
 @Composable
-fun CreatePostComponent(){
+fun CreatePostComponent(onClick: () -> Unit){
     val text = remember {
         mutableStateOf("")
     }
@@ -56,9 +57,7 @@ fun CreatePostComponent(){
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFFF4500)
                 ),
-                onClick = {
-                    // API Call to create post
-                }
+                onClick = onClick
             ) {
                 Text("Post")
             }

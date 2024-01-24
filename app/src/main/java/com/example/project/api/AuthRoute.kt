@@ -1,4 +1,4 @@
-package com.example.project.utils
+package com.example.project.api
 
 import com.example.project.dataclasses.BaseResponse
 import com.example.project.dataclasses.register.RegisterBody
@@ -9,7 +9,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface APIConsumer {
+interface AuthRoute {
     @POST("auth/register")
     suspend fun registerUser(@Body body: RegisterBody) :Response<BaseResponse<RegisterResponse>>
 

@@ -2,12 +2,12 @@ package com.example.project.repository
 
 import com.example.project.dataclasses.register.RegisterBody
 import com.example.project.dataclasses.login.LoginRequestBody
-import com.example.project.utils.APIConsumer
+import com.example.project.api.AuthRoute
 import com.example.project.utils.RequestStatus
 import com.example.project.utils.SimplifiedMessage
 import kotlinx.coroutines.flow.flow
 
-class AuthRepository(private val consumer :APIConsumer) {
+class AuthRepository(private val consumer : AuthRoute) {
     fun registerUser (body: RegisterBody) = flow {
         emit(RequestStatus.Waiting)
         val response = consumer.registerUser(body)
