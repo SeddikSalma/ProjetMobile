@@ -23,7 +23,7 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
 
    private lateinit var binding : ActivitySignupBinding
    private lateinit var viewModel : SignupActivityViewModel
-   private lateinit var loadingProgressBar: ProgressBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivitySignupBinding.inflate(LayoutInflater.from(this))
@@ -32,6 +32,7 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
         setupValidationListeners()
 
         binding.signup.setOnClickListener{
+            binding.signup.isEnabled = false
             onSubmit()
         }
 
@@ -43,22 +44,25 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
         viewModel.getRegisterResult().observe(this) {
             when(it){
                 is RegisterState.Idle -> {
+                    binding.signup.isEnabled = true
                     Log.d("RegisterTest", "Idle state")
                 }
                 is RegisterState.Loading -> {
-                    loadingProgressBar.visibility = View.VISIBLE
+                    binding.loadingProgressBar.visibility = View.VISIBLE
                     Log.d("RegisterTest", "Loading state")
 
                 }
                 is RegisterState.Success -> {
-                    loadingProgressBar.visibility = View.GONE
+                    binding.signup.isEnabled = true
+                    binding.loadingProgressBar.visibility = View.GONE
                     Log.d("RegisterTest", "Success state")
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
 
                 }
                 is RegisterState.Error -> {
-                    loadingProgressBar.visibility = View.GONE
+                    binding.signup.isEnabled = true
+                    binding.loadingProgressBar.visibility = View.GONE
                     AlertDialog.Builder(this)
                         .setTitle("Error")
                         .setMessage(it.error)
@@ -70,8 +74,6 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
                 }
             }
         }
-        loadingProgressBar = findViewById(R.id.loadingProgressBar)
-
     }
 
     private fun setupValidationListeners(){
