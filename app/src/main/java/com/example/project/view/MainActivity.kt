@@ -32,15 +32,6 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        val logoutButton: Button = findViewById(R.id.logout)
-
-        logoutButton.setOnClickListener {
-            disconnectUser()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-
-        }
-
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -53,6 +44,16 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        navView.setNavigationItemSelectedListener {
+            val id = it.itemId
+            if(id == R.id.logout) {
+                disconnectUser()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                false
+            }
+            else true
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
