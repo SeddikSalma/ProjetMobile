@@ -10,6 +10,7 @@ import com.example.project.dataclasses.create_post.CreatePostBody
 import com.example.project.repository.PostRepository
 import com.example.project.api.RequestStatus
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class PostsFragmentViewModel(private val postRepository: PostRepository) : ViewModel() {
@@ -18,7 +19,8 @@ class PostsFragmentViewModel(private val postRepository: PostRepository) : ViewM
     }
 
     fun getNewPostResult(): LiveData<CreatePostState> = loginResult
-    val posts: MutableStateFlow<List<Post>> = MutableStateFlow(emptyList())
+    private var _posts: MutableStateFlow<List<Post>> = MutableStateFlow(emptyList())
+    val posts = _posts.asStateFlow()
 
     fun createPost(body: CreatePostBody){
         viewModelScope.launch {
@@ -31,7 +33,7 @@ class PostsFragmentViewModel(private val postRepository: PostRepository) : ViewM
                         val post = it.data.data!!.post
                         loginResult.value = CreatePostState.Success(post)
 
-                        posts.value = listOf(post) + posts.value;
+                        _posts.value = listOf(post) + posts.value;
                     }
                     is RequestStatus.Error -> {
                         loginResult.value = CreatePostState.Error(it.message["message"]!!)
@@ -51,7 +53,7 @@ class PostsFragmentViewModel(private val postRepository: PostRepository) : ViewM
                     }
                     is RequestStatus.Success -> {
                         Log.d("TESSSSSST", "Success")
-                        posts.value = it.data.data!! // GetPostsState.Success(it.data.data!!)
+                        _posts.value = it.data.data!! // GetPostsState.Success(it.data.data!!)
                     }
                     is RequestStatus.Error -> {
                         Log.d("TESSSSSST", "err" + it.message["message"]!!)

@@ -1,20 +1,16 @@
-package com.example.project.view
-import android.app.AlertDialog
+package com.example.project.ui.login
 import SessionManager
 import android.content.Intent
 import android.os.Bundle;
 import android.util.Log
 import android.view.View
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
-import com.example.project.R
 import com.example.project.databinding.ActivityLoginBinding
 import com.example.project.dataclasses.login.LoginRequestBody
-import com.example.project.view_model.LoginActivityViewModel
-import com.example.project.view_model.factory.LoginActivityViewModelFactory
-import com.example.project.view_model.LoginState
+import com.example.project.utils.showErrorDialog
+import com.example.project.ui.MainActivity
+import com.example.project.ui.signup.SignupActivity
 
 
 class LoginActivity : AppCompatActivity() {
@@ -51,14 +47,9 @@ class LoginActivity : AppCompatActivity() {
 
                 }
                 is LoginState.Error -> {
-                    AlertDialog.Builder(this)
-                        .setTitle("Error")
-                        .setMessage(it.error)
-                        .setPositiveButton("OK") { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                        .show()
+                    showErrorDialog(this, it.error)
                     Log.d("RegisterTest", it.error)
+                    binding.login.isEnabled = true
                     binding.loadingProgressBar1.visibility = View.GONE
                 }
             }

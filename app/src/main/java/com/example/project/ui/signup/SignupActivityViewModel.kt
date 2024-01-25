@@ -1,4 +1,4 @@
-package com.example.project.view_model
+package com.example.project.ui.signup
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,10 +1,11 @@
-package com.example.project.view
+package com.example.project.ui
 
 import SessionManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.project.databinding.ActivitySplashscreenBinding
+import com.example.project.ui.login.LoginActivity
 
 class SplashScreen : AppCompatActivity() {
     private lateinit var binding: ActivitySplashscreenBinding

@@ -2,6 +2,8 @@ package com.example.project.api
 
 import SessionManager
 import android.util.Log
+import com.example.project.interceptors.accessTokenInterceptor
+import com.example.project.interceptors.refreshTokenInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -15,6 +17,11 @@ object APIService {
         .connectTimeout(60,TimeUnit.SECONDS)
         .readTimeout(60,TimeUnit.SECONDS)
         .writeTimeout(60,TimeUnit.SECONDS)
+        .build()
+
+    private val authedClientBuilder: OkHttpClient = clientBuilder.newBuilder()
+        .addInterceptor { chain -> accessTokenInterceptor(chain) }
+        .addInterceptor { chain -> refreshTokenInterceptor(chain) }
         .build()
 
     fun getAuthService(): AuthRoute {
@@ -31,16 +38,7 @@ object APIService {
     }
 
     fun getPostService(): PostRoute {
-        val client: OkHttpClient = clientBuilder.newBuilder()
-            .addInterceptor { chain: Interceptor.Chain ->
-                val reqBuilder: Request.Builder = chain.request().newBuilder()
-                if(SessionManager.isLoggedIn()){
-                    val token = SessionManager.getAccessToken()!!
-                    reqBuilder.addHeader("Authorization", "Bearer $token")
-                }
-                val newReq = reqBuilder.build()
-                chain.proceed(newReq)
-            }
+        val client: OkHttpClient = authedClientBuilder.newBuilder()
             .build()
 
         val builder: Retrofit.Builder=Retrofit.Builder()
@@ -53,16 +51,7 @@ object APIService {
     }
 
     fun getUserService(): UserRoute {
-        val client: OkHttpClient = clientBuilder.newBuilder()
-            .addInterceptor { chain: Interceptor.Chain ->
-                val reqBuilder: Request.Builder = chain.request().newBuilder()
-                if(SessionManager.isLoggedIn()){
-                    val token = SessionManager.getAccessToken()!!
-                    reqBuilder.addHeader("Authorization", "Bearer $token")
-                }
-                val newReq = reqBuilder.build()
-                chain.proceed(newReq)
-            }
+        val client: OkHttpClient = authedClientBuilder.newBuilder()
             .build()
 
         val builder: Retrofit.Builder=Retrofit.Builder()

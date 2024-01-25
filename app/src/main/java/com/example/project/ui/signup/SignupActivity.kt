@@ -1,6 +1,5 @@
-package com.example.project.view
+package com.example.project.ui.signup
 
-import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,15 +8,12 @@ import android.util.Patterns
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ProgressBar
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
-import com.example.project.R
 import com.example.project.databinding.ActivitySignupBinding
 import com.example.project.dataclasses.register.RegisterBody
-import com.example.project.view_model.RegisterState
-import com.example.project.view_model.SignupActivityViewModel
-import com.example.project.view_model.factory.SignupActivityViewModelFactory
+import com.example.project.ui.login.LoginActivity
+import com.example.project.utils.showErrorDialog
 
 class SignupActivity : AppCompatActivity(), View.OnKeyListener {
 
@@ -63,13 +59,7 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
                 is RegisterState.Error -> {
                     binding.signup.isEnabled = true
                     binding.loadingProgressBar.visibility = View.GONE
-                    AlertDialog.Builder(this)
-                        .setTitle("Error")
-                        .setMessage(it.error)
-                        .setPositiveButton("OK") { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                        .show()
+                    showErrorDialog(this, it.error)
                     Log.d("RegisterTest", it.error)
                 }
             }

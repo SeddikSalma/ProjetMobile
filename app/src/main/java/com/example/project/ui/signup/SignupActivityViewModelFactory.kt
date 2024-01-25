@@ -1,10 +1,9 @@
-package com.example.project.view_model.factory
+package com.example.project.ui.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.project.repository.AuthRepository
 import com.example.project.api.APIService
-import com.example.project.view_model.SignupActivityViewModel
 import java.security.InvalidParameterException
 
 class SignupActivityViewModelFactory: ViewModelProvider.Factory {
