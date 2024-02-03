@@ -5,7 +5,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
-import com.example.project.utils.showErrorDialog
+import com.example.project.utils.ConnectionManager
 
 class MyApp: Application() {
     companion object {
@@ -18,20 +18,27 @@ class MyApp: Application() {
     override fun onCreate() {
         super.onCreate()
         context = this
-        val tmp = this
 
         val connManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkRequest = NetworkRequest.Builder().build()
 
+        ConnectionManager.updateConnectionState(false)
+
         connManager.registerNetworkCallback(networkRequest, object : ConnectivityManager.NetworkCallback(){
             override fun onUnavailable() {
                 super.onUnavailable()
-                showErrorDialog(tmp, "No network access!")
+                ConnectionManager.updateConnectionState(false)
             }
 
             override fun onLost(network: Network) {
                 super.onLost(network)
-                showErrorDialog(tmp, "No network access!")
+                ConnectionManager.updateConnectionState(false)
+                //showErrorDialog(context, "No network access!")
+            }
+
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                ConnectionManager.updateConnectionState(true)
             }
         })
     }

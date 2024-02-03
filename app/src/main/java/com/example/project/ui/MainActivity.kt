@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.project.R
 import com.example.project.databinding.ActivityMainBinding
 import com.example.project.ui.login.LoginActivity
+import com.example.project.utils.ConnectionManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,6 +44,19 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        ConnectionManager.isConnected.observe(this) {
+            when(it) {
+                true -> {
+
+                }
+                false -> {
+                    val intent = Intent(this, NotConnectedActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                }
+            }
+        }
 
         SessionManager.isAuthenticated.observe(this) {
             when (it) {
