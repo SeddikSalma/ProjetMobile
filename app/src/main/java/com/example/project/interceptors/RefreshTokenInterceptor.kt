@@ -1,5 +1,6 @@
 package com.example.project.interceptors
 
+import SessionManager
 import com.example.project.api.APIService
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -23,6 +24,8 @@ fun refreshTokenInterceptor(chain: Interceptor.Chain): Response {
                         .build()
 
                     mainResp = chain.proceed(newReq)
+                } else{
+                    SessionManager.disconnectUser()
                 }
             }
     }

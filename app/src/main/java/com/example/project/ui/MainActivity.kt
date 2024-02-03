@@ -1,5 +1,6 @@
 package com.example.project.ui
 
+import SessionManager
 import SessionManager.disconnectUser
 import android.content.Intent
 import android.os.Bundle
@@ -42,6 +43,19 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        SessionManager.isAuthenticated.observe(this) {
+            when (it) {
+                true -> {
+
+                }
+                false -> {
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
