@@ -6,23 +6,19 @@ Our app offers an intuitive interface that lets you easily write, publish, and m
 * Link: https://backendmobilegl4.onrender.com/
 
 ## Jetpack compose Components 
-![image](https://github.com/SeddikSalma/ProjetMobile/assets/90422613/cb642854-07cd-4858-ba61-e82aa81a2959)
 
-### Common :
+<p align="center">
+  <img src="https://github.com/SeddikSalma/ProjetMobile/assets/90422613/cb642854-07cd-4858-ba61-e82aa81a2959"><br/>
+</p>
 
-    UserAvatar: is the component used for displaying the user profile picture 
+* Common :
+    * UserAvatar: is the component used for displaying the user profile picture 
+    * YCenteredAvatar: is the same as the userAvatar but centered regarding the Y axis
 
-    
-    YCenteredAvatar: is the same as the userAvatar but centered regarding the Y axis 
-### Post :
-
-    PostComponent : is the component used to display the combination of the PostBody and PostHeader
-
-    
-    PostBody : is the component used to display the content of the post 
-
-    
-    PostHeader : is the component used to display the name of the username that wrote the post
+* Post :
+    *  PostComponent : is the component used to display the combination of the PostBody and PostHeader
+    * PostBody : is the component used to display the content of the post 
+    * PostHeader : is the component used to display the name of the username that wrote the post
 
 ## Navigation
 
