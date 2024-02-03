@@ -7,7 +7,6 @@ import okhttp3.Response
 fun refreshTokenInterceptor(chain: Interceptor.Chain): Response {
     val mainReq = chain.request()
     var mainResp = chain.proceed(mainReq)
-    mainResp.
 
     if(mainResp.code == 401 || mainResp.code == 403){
         val refresh = SessionManager.getRefreshToken()
