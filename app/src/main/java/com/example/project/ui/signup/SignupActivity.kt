@@ -12,7 +12,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.project.databinding.ActivitySignupBinding
 import com.example.project.dataclasses.register.RegisterBody
+import com.example.project.ui.NotConnectedActivity
 import com.example.project.ui.login.LoginActivity
+import com.example.project.utils.ConnectionManager
 import com.example.project.utils.showErrorDialog
 
 class SignupActivity : AppCompatActivity(), View.OnKeyListener {
@@ -24,6 +26,19 @@ class SignupActivity : AppCompatActivity(), View.OnKeyListener {
         super.onCreate(savedInstanceState)
         binding=ActivitySignupBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+
+        ConnectionManager.isConnected.observe(this) {
+            when(it) {
+                true -> {
+
+                }
+                false -> {
+                    val intent = Intent(this, NotConnectedActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                }
+            }
+        }
 
         setupValidationListeners()
 

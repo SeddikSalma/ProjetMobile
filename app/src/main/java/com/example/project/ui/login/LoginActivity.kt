@@ -10,7 +10,9 @@ import com.example.project.databinding.ActivityLoginBinding
 import com.example.project.dataclasses.login.LoginRequestBody
 import com.example.project.utils.showErrorDialog
 import com.example.project.ui.MainActivity
+import com.example.project.ui.NotConnectedActivity
 import com.example.project.ui.signup.SignupActivity
+import com.example.project.utils.ConnectionManager
 
 
 class LoginActivity : AppCompatActivity() {
@@ -22,6 +24,19 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        ConnectionManager.isConnected.observe(this) {
+            when(it) {
+                true -> {
+
+                }
+                false -> {
+                    val intent = Intent(this, NotConnectedActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                }
+            }
+        }
 
         viewModel = ViewModelProvider(
             this,

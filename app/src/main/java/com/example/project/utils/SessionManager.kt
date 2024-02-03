@@ -65,7 +65,11 @@ object SessionManager {
         editor.remove(REFRESH_TOKEN)
         editor.apply()
 
-        _isAuthenticated.value = false
+        GlobalScope.launch {
+            withContext(Dispatchers.Main){
+                _isAuthenticated.value = false
+            }
+        }
     }
 
     private fun saveString(key: String, value: String) {
