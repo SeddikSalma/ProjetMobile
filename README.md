@@ -30,7 +30,13 @@ Our app offers an intuitive interface that lets you easily write, publish, and m
 
 ## Retrofit
 
-*  Interceptors
+*  Interceptors:
+    * AccessTokenInterceptor:
+        * Adds `Authorization` header to request
+    * RefreshTokenInterceptor:
+        * If request fails with error codes 401/403, this interceptor will try to refresh the access token using a refresh token.
+        * If success, the failed request will be replayed & the result will be returned.
+        * If fail, the user will be disconnected.
 
 
 ## User Interface
